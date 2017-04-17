@@ -9,14 +9,14 @@ services:
         - "3306:3306"
     environment:
         MYSQL_DATABASE: db
-        MYSQL_USER: homestead
-        MYSQL_PASSWORD: secret
+        MYSQL_USER: siges
+        MYSQL_PASSWORD: siges
         MYSQL_ROOT_PASSWORD: root
 
   php:
     build: ./php
     volumes:
-      - /path/to/www:/var/www
+      - ../:/var/www
     links:
       - mysql
 
@@ -28,3 +28,17 @@ services:
       - "80:80"
     links:
       - php
+
+  ### phpMyAdmin Container ####################################
+
+  phpmyadmin:
+    build: ./phpmyadmin
+    environment:
+      - PMA_ARBITRARY=1
+      - MYSQL_USER=siges
+      - MYSQL_PASSWORD=siges
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - "88:80"
+    depends_on:
+      - "mysql"
